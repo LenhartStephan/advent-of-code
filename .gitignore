@@ -22,5 +22,8 @@ pubspec.lock
 .flutter-plugins
 .flutter-plugins-dependencies
 
+.DS_Store
+thumbs.db
+
 *.cookie
 input.txt
