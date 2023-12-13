@@ -5,9 +5,16 @@ param (
   [Parameter(Mandatory=$true)][Int16]$day
 )
 
-if(-not (Test-Path -Path "./day$day")){
+if($day -lt 10){
+    $foldername = "day0$day";
+}else{
+    $foldername = "day$day";
+}
+
+if(-not (Test-Path -Path "./$foldername")){
     dart create ./day$day
-    Set-Location ./day$day/
+    Rename-Item -Path ./day$day -NewName $foldername
+    Set-Location $foldername
 
      @"
 import 'dart:io';
@@ -40,7 +47,7 @@ void main(List<String> arguments) async {
 }
 "@ | Out-File -FilePath "./.vscode/launch.json";
     Remove-Item "./*.md"
-    dart format ./
+    dart format ./ -l 120
     Write-Host ""
     Write-Host "Successfuly created Advent-Of-Code day$day" -ForegroundColor Green
     Set-Location ./../
@@ -48,11 +55,11 @@ void main(List<String> arguments) async {
 
 if(-not $noInput){
     if(Test-Path -path .\session.cookie){
-        if(-not (Test-Path -path ./day$day/input.txt) -or $force){
+        if(-not (Test-Path -path ./$foldername/input.txt) -or $force){
             $session = Get-Content .\session.cookie
             $req = Invoke-WebRequest https://adventofcode.com/2023/day/$day/input -Headers @{'cookie' = $session}
             if($req.StatusCode -eq 200){  
-                $req.Content | Out-File -FilePath "./day$day/input.txt"
+                $req.Content | Out-File -FilePath "./$foldername/input.txt"
                 Write-Host "Successfuly created input file for day $day" -ForegroundColor Green
             }else{
                 Write-Host "An Error occured during download of the input data for day$day. Please check your session file and try again." -ForegroundColor Red

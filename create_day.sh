@@ -27,9 +27,16 @@ if [ -z "$day" ]; then
     exit 1
 fi
 
-if [ ! -d "./day$day" ]; then
+if [ $day -lt 10 ]; then
+    folderName="day0$day"
+else
+    folderName="day$day"
+fi
+
+if [ ! -d "./folderName" ]; then
     dart create "./day$day"
-    cd "./day$day" || exit
+    mv ./day$day $folderName
+    cd "./$folderName" || exit
 
     echo "
 import 'dart:io';
@@ -60,7 +67,7 @@ void main(List<String> arguments) async {
 " > "./.vscode/launch.json"
 
     rm ./*.md
-    dart format ./
+    dart format ./ -l 120
     echo ""
     echo "Successfully created Advent-Of-Code day$day" 
     cd ..
@@ -68,11 +75,11 @@ fi
 
 if [ ! "$noInput" = true ]; then
     if [ -e "./session.cookie" ]; then
-        if [ ! -e "./day$day/input.txt" ] || [ "$force" = true ]; then
+        if [ ! -e "./$folderName/input.txt" ] || [ "$force" = true ]; then
             session=$(cat "./session.cookie")
             req=$(curl -s -b "session=$session" "https://adventofcode.com/$year/day/$day/input")
             if [ "$?" -eq 0 ]; then
-                echo "$req" > "./day$day/input.txt"
+                echo "$req" > "./$folderName/input.txt"
                 echo "Successfully created input file for day $day"
             else
                 echo "An error occurred during the download of the input data for day$day. Please check your session file and try again." >&2
