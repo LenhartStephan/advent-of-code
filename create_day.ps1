@@ -13,7 +13,10 @@ if($day -lt 10){
 
 if(-not (Test-Path -Path "./$foldername")){
     dart create ./day$day
-    Rename-Item -Path ./day$day -NewName $foldername
+    Start-Sleep -Milliseconds 500
+    if(-not ("day$day" -eq $foldername)){
+        Rename-Item -Path ./day$day -NewName $foldername
+    }
     Set-Location $foldername
 
      @"
