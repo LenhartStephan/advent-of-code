@@ -1,0 +1,13 @@
+
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "day18",
+          "request": "launch",
+          "type": "dart",
+          "program": "bin/day18.dart"
+      }
+  ]
+}
+
