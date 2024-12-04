@@ -4,7 +4,7 @@ import os
 def get_lines(day, year="2024", force_download=False):
     file_name = f"day{str(day).zfill(2)}.input"
     if os.path.exists(file_name) and not force_download:
-        return open(file_name, 'r').readlines()
+        return open(file_name, 'r').read().splitlines()
     elif os.path.exists("session.cookie"):
         print("Input download forced..." if force_download else "Input file missing. Downloading input...")
         session = {"session": open(f"session.cookie", 'r').read()}
