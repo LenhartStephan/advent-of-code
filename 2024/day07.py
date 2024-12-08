@@ -21,6 +21,9 @@ def search_assignment(target: int, num: list[int], use_concat: bool, value: int 
     if value is None:
         return search_assignment(target, num, use_concat, v)
 
+    if value > target:
+        return 0
+
     return max(
         search_assignment(target, num.copy(), use_concat, value + v),
         search_assignment(target, num.copy(), use_concat, value * v),
