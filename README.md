@@ -3,6 +3,7 @@
 | Year | Language |
 |------|----------|
 | 2020 | Kotlin   |
+| 2022 | Dart     |
 | 2023 | Dart     |
 | 2024 | Python   |
 | 2025 | Python   |
